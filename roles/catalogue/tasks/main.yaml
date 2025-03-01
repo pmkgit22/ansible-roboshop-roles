@@ -1,0 +1,4 @@
+- name: install Nodejs
+  ansible.builin.import_role:
+    name: common
+    tasks_from: nodejs
