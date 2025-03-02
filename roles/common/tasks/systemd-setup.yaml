@@ -8,3 +8,8 @@
     daemon_reload: true
     state: restarted
     name: "{{component}}"
+
+- name: Restart {{component}} service
+  ansible.builtin.service:   
+    name: "{{component}}"
+    state: restarted
