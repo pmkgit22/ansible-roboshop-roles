@@ -9,10 +9,8 @@
     state: present
     disable_gpg_check: true
 
-- name: Enable redis 6.2 module
+- name: Enable redis 6.2
   ansible.builtin.command: yum module enable redis:remi-6.2 -y
-  args:
-    warn: false
 
 - name: Install redis
   ansible.builtin.yum:
@@ -25,7 +23,7 @@
     regexp: '127.0.0.1'
     replace: '0.0.0.0'
 
-- name: Restart Redis service
+- name: Restart and enable redis
   ansible.builtin.service:
     name: redis
     state: restarted
