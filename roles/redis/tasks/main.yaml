@@ -3,7 +3,7 @@
   register: os_version
   changed_when: false
 
-- name: Install remi repo
+- name: Install correct remi repo
   ansible.builtin.yum:
     name: "https://rpms.remirepo.net/enterprise/remi-release-{{ os_version.stdout }}.rpm"
     state: present
