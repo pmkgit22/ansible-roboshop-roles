@@ -10,8 +10,8 @@
 - name: Install Redis
   ansible.builtin.yum:
     name: redis
-    state: present
-    
+    state: installed
+
 - name: Allow remote connections to redis
   ansible.builtin.replace:
     path: /etc/redis.conf
