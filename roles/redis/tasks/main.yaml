@@ -1,17 +1,17 @@
-- name: Install redis repo
+- name: Install compatible remi repo for CentOS Stream 8
   ansible.builtin.yum:
-    name: https://rpms.remirepo.net/enterprise/remi-release-8.rpm
-    state: installed
+    name: "https://rpms.remirepo.net/enterprise/remi-release-8.9.rpm"
+    state: present
     disable_gpg_check: true
 
-- name: Enable redis 6.2
-  ansible.builtin.command: yum module enable redis:remi-6.2 -y
+- name: Enable Redis 6 module
+  ansible.builtin.command: yum module enable redis:6 -y
 
-- name: Install redis
+- name: Install Redis
   ansible.builtin.yum:
     name: redis
-    state: installed
-
+    state: present
+    
 - name: Allow remote connections to redis
   ansible.builtin.replace:
     path: /etc/redis.conf
