@@ -1,12 +1,7 @@
-- name: Get OS major version
-  ansible.builtin.shell: "rpm --eval '%{rhel}'"
-  register: os_version
-  changed_when: false
-
-- name: Install correct remi repo
+- name: Install redis repo
   ansible.builtin.yum:
-    name: "https://rpms.remirepo.net/enterprise/remi-release-{{ os_version.stdout }}.rpm"
-    state: present
+    name: https://rpms.remirepo.net/enterprise/remi-release-8.rpm
+    state: installed
     disable_gpg_check: true
 
 - name: Enable redis 6.2
@@ -19,12 +14,12 @@
 
 - name: Allow remote connections to redis
   ansible.builtin.replace:
-    path: /etc/redis/redis.conf
+    path: /etc/redis.conf
     regexp: '127.0.0.1'
     replace: '0.0.0.0'
 
-- name: Restart and enable redis
+- name: start and enable redis
   ansible.builtin.service:
     name: redis
-    state: restarted
+    state: started
     enabled: yes
