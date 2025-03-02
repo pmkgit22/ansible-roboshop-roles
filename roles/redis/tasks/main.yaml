@@ -1,7 +1,7 @@
 - name: Install compatible remi repo for CentOS Stream 8
   ansible.builtin.yum:
     name: "https://rpms.remirepo.net/enterprise/remi-release-8.9.rpm"
-    state: present
+    state: installed
     disable_gpg_check: true
 
 - name: Enable Redis 6 module
