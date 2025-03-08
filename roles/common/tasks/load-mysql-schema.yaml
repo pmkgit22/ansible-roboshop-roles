@@ -3,7 +3,5 @@
     name: mysql
     state: installed
 
-- name: Load MySQL schema
-  ansible.builtin.shell: mysql -h mysql.munidevops.shop -uroot -pRoboShop@1 < /app/schema/shipping.sql
-
-    
+- name: load mysql schema
+  ansible.builtin.shell: mysql -h mysql.munidevops.shop -uroot -pRoboShop@1 < /app/schema/{{component}}.sql 
