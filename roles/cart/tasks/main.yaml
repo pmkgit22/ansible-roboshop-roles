@@ -13,7 +13,7 @@
   args:
     chdir: /app
 
-- name: Deamon reload and restart catalogue
+- name: Deamon reload and restart cart
   ansible.builtin.import_role:
     name: common
     tasks_from: systemd-setup
