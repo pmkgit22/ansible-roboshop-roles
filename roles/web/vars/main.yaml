@@ -1,0 +1,5 @@
+CATALOGUE_HOST: catalogue.munidevops.shop
+USER_HOST: user.munidevops.shop
+SHIPPING_HOST: shipping.munidevops.shop
+CART_HOST: cart.munidevops.shop
+PAYMENT_HOST: payment.munidevops.shop
