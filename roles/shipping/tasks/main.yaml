@@ -59,8 +59,11 @@
     name: mysql
     state: installed
 
+# - name: copy schema.sql to shipping.sql
+#   ansible.builtin.command: cp /app/db/schema.sql /app/schema/shipping.sql
+
 - name: load mysql schema
-  ansible.builtin.shell: mysql -h mysql.munidevops.shop -uroot -pRoboShop@1 < /app/schema/schema.sql 
+  ansible.builtin.shell: mysql -h mysql.munidevops.shop -uroot -pRoboShop@1 < /app/schema/shipping.sql 
 
 - name: restart shipping
   ansible.builtin.service:
