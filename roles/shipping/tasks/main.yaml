@@ -18,10 +18,13 @@
   args:
     chdir: /app
 
-- name: Load mysl schema
-  ansible.builtin.import_role:
-    name: common
-    tasks_from: load-mysql-schema
+- name: Install MySQL client
+  ansible.builtin.yum:
+    name: mysql
+    state: installed
+
+- name: load mysql schema
+  ansible.builtin.shell: mysql -h mysql.munidevops.shop -uroot -pRoboShop@1 < /app/schema/shipping.sql 
 
 - name: Start Application
   ansible.builtin.import_role:
