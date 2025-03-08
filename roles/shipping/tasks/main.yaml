@@ -1,30 +1,50 @@
-- name: install Maven
+- name: Install Maven
   ansible.builtin.import_role:
     name: common
     tasks_from: maven-setup
 
-- name: setup Application
+- name: Setup Application
   ansible.builtin.import_role:
     name: common
     tasks_from: app-setup
 
-- name: maven clean pacakage
-  ansible.builtin.command: mvn clean package
+- name: Build the Java application with Maven
+  ansible.builtin.command: mvn clean package -DskipTests
   args:
     chdir: /app
+  register: maven_build
+  changed_when: "'BUILD SUCCESS' in maven_build.stdout"
 
-- name: Rename jar file
+- name: Rename JAR file
   ansible.builtin.command: mv target/shipping-1.0.jar shipping.jar
   args:
     chdir: /app
+  when: maven_build is changed
 
 - name: Install MySQL client
   ansible.builtin.yum:
     name: mysql
-    state: installed
+    state: present
 
-- name: load mysql schema
-  ansible.builtin.shell: mysql -h mysql.munidevops.shop -uroot -pRoboShop@1 < /app/schema/shipping.sql 
+- name: Ensure schema directory exists
+  ansible.builtin.file:
+    path: /app/schema
+    state: directory
+    mode: '0755'
+
+- name: Copy MySQL schema file
+  ansible.builtin.copy:
+    src: shipping.sql  # Ensure this file is in roles/common/files/
+    dest: /app/schema/shipping.sql
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Load MySQL schema if not already imported
+  ansible.builtin.shell: |
+    mysql -h mysql.munidevops.shop -uroot -pRoboShop@1 -e 'SHOW TABLES IN shipping;' | grep orders || mysql -h mysql.munidevops.shop -uroot -pRoboShop@1 < /app/schema/shipping.sql
+  args:
+    executable: /bin/bash
 
 - name: Start Application
   ansible.builtin.import_role:
